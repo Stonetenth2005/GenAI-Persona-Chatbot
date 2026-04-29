@@ -58,11 +58,11 @@ router.post('/', async (req, res) => {
     const reply = response.choices[0].message.content;
     res.json({ reply });
   } catch (error) {
-    console.error('Hugging Face API Error:', error.message || error);
+    console.error('CRITICAL API ERROR:', error);
     res.status(500).json({ 
-      error: error.message.includes('token') 
-        ? 'Hugging Face Token missing or invalid.' 
-        : 'Failed to generate response. Please try again.' 
+      error: error.message.toLowerCase().includes('token') 
+        ? 'Hugging Face Token missing or invalid in deployment settings.' 
+        : 'Internal Server Error: ' + (error.message || 'Unknown error')
     });
   }
 });
